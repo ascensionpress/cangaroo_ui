@@ -1,4 +1,4 @@
-module Cangaroo
+module CangarooUI
   class JobsController < ApplicationController
 
     def index

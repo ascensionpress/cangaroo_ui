@@ -1,4 +1,4 @@
-module Cangaroo
+module CangarooUI
   class SearchController < ApplicationController
 
     rescue_from ActionController::ParameterMissing do
@@ -8,11 +8,11 @@ module Cangaroo
 
     def show
       @search = search_params
-      @records = Cangaroo::Record.where("data LIKE ?", "%#{@search}%")
-      @transactions = Cangaroo::Transaction.where(
+      @records = CangarooUI::Record.where("data LIKE ?", "%#{@search}%")
+      @transactions = CangarooUI::Transaction.where(
         job: Delayed::Job.where("last_error LIKE ?", "%#{@search}%")
       ).or(
-        Cangaroo::Transaction.where(record: @records)
+        CangarooUI::Transaction.where(record: @records)
       )
     end
 

@@ -1,11 +1,11 @@
-module Cangaroo
+module CangarooUI
   class ResolveJobController < ApplicationController
 
     def update
-      @tx = Cangaroo::Transaction.find(params[:id])
+      @tx = CangarooUI::Transaction.find(params[:id])
 
       respond_to do |format|
-        if Cangaroo::TransactionResolver.resolve(@tx)
+        if CangarooUI::TransactionResolver.resolve(@tx)
           flash.now[:notice] = "Job #{@tx.job_class} resolved"
         else
           flash.now[:alert] = "Job #{@tx.job_class} could not be resolved"

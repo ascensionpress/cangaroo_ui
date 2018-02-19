@@ -1,22 +1,22 @@
-module Cangaroo
+module CangarooUI
   class RecordsController < ApplicationController
 
     class UneditableWithoutFailuresError < StandardError; end
 
     def index
-      @records = Cangaroo::Record.order(id: :desc)
+      @records = CangarooUI::Record.order(id: :desc)
       @queried_kind = kind_filter_from_params
       @records = @records.where(kind: @queried_kind) if @queried_kind
       @records = @records.paginate(page: params[:page])
     end
 
     def show
-      @record = Cangaroo::Record.find(params[:id])
+      @record = CangarooUI::Record.find(params[:id])
       @transactions = @record.transactions
     end
 
     def update
-      @record = Cangaroo::Record.find(params[:id])
+      @record = CangarooUI::Record.find(params[:id])
       respond_to do |format|
         if update_record(@record, cangaroo_record_params)
           flash.now[:notice] = "Record was successfully updated."
@@ -33,7 +33,7 @@ module Cangaroo
     private
       def kind_filter_from_params
         return unless kind = params.permit(:kind)[:kind].presence
-        return unless Cangaroo::Record.exists?(kind: kind)
+        return unless CangarooUI::Record.exists?(kind: kind)
         kind
       end
 
