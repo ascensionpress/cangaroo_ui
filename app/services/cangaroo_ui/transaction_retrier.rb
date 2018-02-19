@@ -1,4 +1,4 @@
-module Cangaroo
+module CangarooUI
   class TransactionRetrier
     def self.retry(tx)
       # NOTE this is definitely specific to Delayed::Job

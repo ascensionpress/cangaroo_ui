@@ -1,4 +1,4 @@
-module Cangaroo
+module CangarooUI
   class JobServiceFactory
 
     class UnsupportedJobClass < ArgumentError; end
@@ -15,7 +15,7 @@ module Cangaroo
       end
       case job.class.name
       when (Delayed::Job.name if defined?(Delayed::Job))
-        Cangaroo::JobService::DelayedJob.new(job: job, flow: flow)
+        CangarooUI::JobService::DelayedJob.new(job: job, flow: flow)
       end
     end
 

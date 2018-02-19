@@ -1,4 +1,4 @@
-module Cangaroo
+module CangarooUI
   class TransactionResolver
 
     def self.resolve(tx)

@@ -1,4 +1,4 @@
-module Cangaroo
+module CangarooUI
   module JobService
     class Base
 
