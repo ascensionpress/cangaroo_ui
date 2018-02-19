@@ -1,0 +1,7 @@
+<% if @poll_txs.present? %>
+  <h2>Poll Transactions</h2>
+  <%= render partial: "transactions", locals: { transactions: @poll_txs } %>
+<% end %>
+
+<h2>Push Transactions</h2>
+<%= render partial: "transactions", locals: { transactions: @push_txs } %>

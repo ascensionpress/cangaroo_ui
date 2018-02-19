@@ -1,0 +1,5 @@
+<% error_count = Cangaroo::Transaction.failures.count %>
+<%= link_to errors_path,
+  class: "btn btn-#{error_count.zero? ? "success" : "danger"}" do %>
+  Errors <%= content_tag(:span, error_count, class: "badge") %>
+<% end %>

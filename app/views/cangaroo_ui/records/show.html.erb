@@ -1,0 +1,40 @@
+<%- model_class = Cangaroo::Record -%>
+<div class="page-header">
+  <h1><%= "#{@record.kind.singularize.titleize} #{@record.number.upcase}" %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>Transactions</strong></dt>
+  <dd>
+    <%= render partial: 'cangaroo/transactions/transactions' %>
+  </dd>
+  <dt><strong>Data:</strong></dt>
+  <dd>
+    <% any_failures = @transactions.any?(&:failed?) %>
+    <%= form_for @record, remote: true do |f| %>
+      <div class="form-group">
+        <div class="col-lg-6">
+          <%= f.text_area(
+            :data,
+            value: JSON.pretty_generate(@record.data),
+            rows: 20,
+            class: 'form-control',
+            disabled: !any_failures
+          ) %>
+        </div>
+      </div>
+      <%= f.submit(
+        "Update Data",
+        class: "btn btn-warning",
+        onclick: "window.cangaroo.clearFlashMsg();",
+        data: {
+          confirm: "Are you sure you want to edit this record?",
+          disable_with: "Updating..."
+
+        }
+      ) if any_failures %>
+      <%= link_to("Back to Transactions", transactions_path, class: 'btn btn-default') %>
+      <%= link_to("Back to Records", records_path, class: 'btn btn-default') %>
+    <% end %>
+  </dd>
+</dl>

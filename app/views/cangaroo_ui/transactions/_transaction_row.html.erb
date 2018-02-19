@@ -1,0 +1,50 @@
+<% # `transaction` is a local variable %>
+
+<tr class="transaction-table-row" id="js-transaction-table-row-<%= transaction.id %>">
+  <td><%= transaction.job_class %></td>
+  <td>
+    <% if record = transaction.record %>
+      <%= link_to(
+        "#{record.kind.titleize} ##{record.number}",
+        record_path(record)
+      ) %>
+    <% end %>
+  </td>
+  <td><%= Cangaroo::TransactionsHelper.state_to_bootstrap_label(self, transaction) %></td>
+  <td><%= ApplicationHelper.to_humanized_dt(transaction.last_run) %></td>
+  <td><%= transaction.source_connection.try(:name).try(:upcase) %></td>
+  <td><%= transaction.destination_connection.name.upcase %></td>
+  <td>
+    <%= link_to(
+      record_path(record),
+      class: "btn btn-sm btn-warning btn-transaction-action"
+    ) do %>
+      <span class='glyphicon glyphicon-pencil'></span> Edit
+    <% end if transaction.failed? && record && request.env['PATH_INFO'] != record_path(record) %>
+    <%= link_to(
+      retry_job_path(transaction),
+      onclick: "window.cangaroo.clearFlashMsg();",
+      data: {
+        method: :put,
+        remote: true,
+        disable_with: "Retrying..."
+      },
+      class: "btn btn-sm btn-success btn-transaction-action"
+    ) do %>
+      <span class='glyphicon glyphicon-repeat'></span> Retry
+    <% end if transaction.failed? %>
+    <%= link_to(
+      resolve_job_path(transaction),
+      onclick: "window.cangaroo.clearFlashMsg();",
+      data: {
+        method: :put,
+        remote: true,
+        disable_with: "Resolving...",
+        confirm: "This cannot be undone"
+      }.delete_if {|key, value| key == :confirm && transaction.poll_job? },
+      class: "btn btn-sm btn-info btn-transaction-action"
+    ) do %>
+      <span class='glyphicon glyphicon-ok'></span> Resolve
+    <% end if transaction.failed? %>
+  </td>
+</tr>

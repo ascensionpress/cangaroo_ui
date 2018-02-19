@@ -1,0 +1,19 @@
+<div class="page-header">
+  <h1>Search Results</h1>
+</div>
+
+<h4 class="text-danger">Searched for "<em><%= @search %></em>"</h4>
+
+<h3>Records</h3>
+<% if @records.present? %>
+  <%= render partial: "cangaroo/records/records" %>
+<% else %>
+  No records found.
+<% end %>
+
+<h3>Transactions</h3>
+<% if @transactions.present? %>
+<%= render partial: "cangaroo/transactions/transactions" %>
+<% else %>
+  No transactions found.
+<% end %>

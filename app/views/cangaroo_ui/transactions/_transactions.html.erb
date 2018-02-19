@@ -1,0 +1,20 @@
+<% transactions ||= @transactions %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="col-xs-1">Job</th>
+      <th class="col-xs-1">Record</th>
+      <th class="col-xs-2">Status</th>
+      <th class="col-xs-1">Last Run</th>
+      <th class="col-xs-1">Source</th>
+      <th class="col-xs-1">Destination</th>
+      <th class="col-xs-1 col-tx-actions">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% transactions.each do |transaction| %>
+      <%= render partial: 'cangaroo/transactions/transaction_row', locals: { transaction: transaction } %>
+    <% end %>
+  </tbody>
+</table>
+<%= will_paginate transactions if transactions.respond_to?(:total_pages) %>

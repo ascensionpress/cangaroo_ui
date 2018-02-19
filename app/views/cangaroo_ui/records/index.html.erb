@@ -1,0 +1,19 @@
+<div class="page-header">
+  <h1><%= @queried_kind.try(:pluralize).try(:titleize) || "Records" %></h1>
+</div>
+<div class="well">
+    <%= link_to(
+      "All",
+      records_path,
+      class: "text-white btn btn-lg btn-default"
+    ) %>
+  <% Cangaroo::Record.select(:kind).distinct.pluck(:kind).each do |kind| %>
+    <% bootstrap_class = Cangaroo::RecordsHelper.record_kind_to_bootstrap_class(kind) %>
+    <%= link_to(
+      kind.pluralize.titleize,
+      records_path(kind: kind),
+      class: "text-white btn btn-lg btn-#{bootstrap_class}"
+    ) %>
+  <% end %>
+</div>
+<%= render partial: "records" %>

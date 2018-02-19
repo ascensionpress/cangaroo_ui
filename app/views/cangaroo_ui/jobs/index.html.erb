@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h1>Queue</h1>
+</div>
+
+<%= content_tag(
+  :h3,
+  "No jobs are currently in the queue",
+  class: 'text-danger'
+) unless @jobs.present? %>
+
+<%= content_tag(:table, class: "table table-striped") do %>
+  <thead>
+    <tr>
+      <th class="col-xs-1">Job</th>
+      <th class="col-xs-1">Status</th>
+      <th class="col-xs-1">Attempts</th>
+      <th class="col-xs-1">Last Run</th>
+      <th class="col-xs-1">Queue</th>
+      <th class="col-xs-1">Record</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @jobs.each do |job| %>
+    <tr>
+      <td><%= Cangaroo::JobsHelper.handler_to_job_class(job) %></td>
+      <td><%= Cangaroo::JobsHelper.job_status_badge(self,job) %></td>
+      <td><%= job.attempts %></td>
+      <td><%= ApplicationHelper.to_humanized_dt(job.run_at) %></td>
+      <td><%= job.queue %></td>
+      <td><%= Cangaroo::JobsHelper.job_to_record_link(self, job) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= will_paginate @jobs %>
+<% end if @jobs.present? %>
