@@ -15,7 +15,7 @@
         <td><%= CangarooUI::RecordsHelper.record_kind_to_bootstrap_label(self, record.kind) %></td>
         <td><%= truncate(record.data.inspect, length: 100) %></td>
         <td>
-          <%= ApplicationHelper.to_humanized_dt(record.created_at) %>
+          <%= CangarooUI::ApplicationHelper.to_humanized_dt(record.created_at) %>
         </td>
         <td>
           <%= link_to "Show", record_path(record), class: 'btn btn-default btn-xs' %>

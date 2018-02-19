@@ -11,7 +11,7 @@
     <% end %>
   </td>
   <td><%= CangarooUI::TransactionsHelper.state_to_bootstrap_label(self, transaction) %></td>
-  <td><%= ApplicationHelper.to_humanized_dt(transaction.last_run) %></td>
+  <td><%= CangarooUI::ApplicationHelper.to_humanized_dt(transaction.last_run) %></td>
   <td><%= transaction.source_connection.try(:name).try(:upcase) %></td>
   <td><%= transaction.destination_connection.name.upcase %></td>
   <td>
