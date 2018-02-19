@@ -1,3 +1,3 @@
-module CangarooUi
+module CangarooUI
   VERSION = '0.1.0'
 end

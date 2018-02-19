@@ -1,5 +1,5 @@
 require "cangaroo_ui/engine"
 
-module CangarooUi
+module CangarooUI
   # Your code goes here...
 end

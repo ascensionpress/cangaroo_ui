@@ -3,7 +3,7 @@ require "cangaroo_ui/version"
 
 Gem::Specification.new do |s|
   s.name        = "cangaroo_ui"
-  s.version     = CangarooUi::VERSION
+  s.version     = CangarooUI::VERSION
   s.authors     = ["David Laprade"]
   s.email       = ["david.laprade@gmail.com"]
   s.homepage    = "https://github.com/ascensionpress/cangaroo_ui"

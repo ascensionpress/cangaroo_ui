@@ -1,5 +1,5 @@
-module CangarooUi
+module CangarooUI
   class Engine < ::Rails::Engine
-    isolate_namespace CangarooUi
+    isolate_namespace CangarooUI
   end
 end

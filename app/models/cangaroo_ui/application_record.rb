@@ -1,4 +1,4 @@
-module CangarooUi
+module CangarooUI
   class ApplicationRecord < ActiveRecord::Base
     self.abstract_class = true
   end

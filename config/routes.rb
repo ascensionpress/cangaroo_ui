@@ -1,2 +1,2 @@
-CangarooUi::Engine.routes.draw do
+CangarooUI::Engine.routes.draw do
 end

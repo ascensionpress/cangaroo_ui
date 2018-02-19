@@ -1,4 +1,4 @@
-module CangarooUi
+module CangarooUI
   module ApplicationHelper
   end
 end
