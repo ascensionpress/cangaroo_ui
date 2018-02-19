@@ -1,4 +1,4 @@
-<%- model_class = Cangaroo::Record -%>
+<%- model_class = CangarooUI::Record -%>
 <div class="page-header">
   <h1><%= "#{@record.kind.singularize.titleize} #{@record.number.upcase}" %></h1>
 </div>
@@ -6,7 +6,7 @@
 <dl class="dl-horizontal">
   <dt><strong>Transactions</strong></dt>
   <dd>
-    <%= render partial: 'cangaroo/transactions/transactions' %>
+    <%= render partial: 'cangaroo_ui/transactions/transactions' %>
   </dd>
   <dt><strong>Data:</strong></dt>
   <dd>

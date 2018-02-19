@@ -1,7 +1,7 @@
 window.cangaroo.updateFlashElements(
-  "<%=j Cangaroo::FlashHelper.to_bootstrap_alert(self, flash) %>"
+  "<%=j CangarooUI::FlashHelper.to_bootstrap_alert(self, flash) %>"
 );
 window.cangaroo.replaceElementById(
   "js-transaction-table-row-<%= @tx.id %>",
-  "<%=j render partial: 'cangaroo/transactions/transaction_row', locals: { transaction: @tx } %>"
+  "<%=j render partial: 'cangaroo_ui/transactions/transaction_row', locals: { transaction: @tx } %>"
 );

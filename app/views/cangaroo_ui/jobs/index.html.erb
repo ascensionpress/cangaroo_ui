@@ -22,12 +22,12 @@
   <tbody>
     <% @jobs.each do |job| %>
     <tr>
-      <td><%= Cangaroo::JobsHelper.handler_to_job_class(job) %></td>
-      <td><%= Cangaroo::JobsHelper.job_status_badge(self,job) %></td>
+      <td><%= CangarooUI::JobsHelper.handler_to_job_class(job) %></td>
+      <td><%= CangarooUI::JobsHelper.job_status_badge(self,job) %></td>
       <td><%= job.attempts %></td>
       <td><%= ApplicationHelper.to_humanized_dt(job.run_at) %></td>
       <td><%= job.queue %></td>
-      <td><%= Cangaroo::JobsHelper.job_to_record_link(self, job) %></td>
+      <td><%= CangarooUI::JobsHelper.job_to_record_link(self, job) %></td>
     </tr>
     <% end %>
   </tbody>

@@ -12,7 +12,7 @@
     <% @records.each do |record| %>
       <tr>
         <td><%= record.number %></td>
-        <td><%= Cangaroo::RecordsHelper.record_kind_to_bootstrap_label(self, record.kind) %></td>
+        <td><%= CangarooUI::RecordsHelper.record_kind_to_bootstrap_label(self, record.kind) %></td>
         <td><%= truncate(record.data.inspect, length: 100) %></td>
         <td>
           <%= ApplicationHelper.to_humanized_dt(record.created_at) %>

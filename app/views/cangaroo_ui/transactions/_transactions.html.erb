@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <% transactions.each do |transaction| %>
-      <%= render partial: 'cangaroo/transactions/transaction_row', locals: { transaction: transaction } %>
+      <%= render partial: 'cangaroo_ui/transactions/transaction_row', locals: { transaction: transaction } %>
     <% end %>
   </tbody>
 </table>

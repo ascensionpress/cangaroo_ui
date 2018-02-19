@@ -7,8 +7,8 @@
       records_path,
       class: "text-white btn btn-lg btn-default"
     ) %>
-  <% Cangaroo::Record.select(:kind).distinct.pluck(:kind).each do |kind| %>
-    <% bootstrap_class = Cangaroo::RecordsHelper.record_kind_to_bootstrap_class(kind) %>
+  <% CangarooUI::Record.select(:kind).distinct.pluck(:kind).each do |kind| %>
+    <% bootstrap_class = CangarooUI::RecordsHelper.record_kind_to_bootstrap_class(kind) %>
     <%= link_to(
       kind.pluralize.titleize,
       records_path(kind: kind),

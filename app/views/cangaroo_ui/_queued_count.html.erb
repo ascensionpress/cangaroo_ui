@@ -1,4 +1,4 @@
-<% queued_count = Cangaroo::Transaction.queued.count %>
+<% queued_count = CangarooUI::Transaction.queued.count %>
 <%= link_to jobs_path, class: "btn btn-default" do %>
   Queued <%= content_tag(:span, queued_count, class: "badge") %>
 <% end %>

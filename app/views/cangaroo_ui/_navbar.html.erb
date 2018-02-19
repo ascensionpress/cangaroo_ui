@@ -7,13 +7,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <%= link_to("Cangaroo", transactions_path, class: "navbar-brand") %>
+      <%= link_to("CangarooUI", transactions_path, class: "navbar-brand") %>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <%= form_tag search_path, class: "navbar-form navbar-left", method: :get do %>
-        <%= render partial: 'cangaroo/queued_count' %>
+        <%= render partial: 'cangaroo_ui/queued_count' %>
         <span id="js-error-notice">
-          <%= render partial: 'cangaroo/error_notice' %>
+          <%= render partial: 'cangaroo_ui/error_notice' %>
         </span>
         <div class="form-group">
           <%= text_field_tag :search,
@@ -26,7 +26,7 @@
         <%= submit_tag "Search", class: 'btn btn-default' %>
 
         <%= content_tag(:div, class: "form-group js-flash-msg") do %>
-          <%= Cangaroo::FlashHelper.to_bootstrap_alert(self, flash) %>
+          <%= CangarooUI::FlashHelper.to_bootstrap_alert(self, flash) %>
         <% end %>
 
       <% end %>

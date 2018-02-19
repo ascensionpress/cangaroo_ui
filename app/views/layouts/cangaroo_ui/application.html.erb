@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Cangaroo ui</title>
-  <%= stylesheet_link_tag    "cangaroo_ui/application", media: "all" %>
-  <%= javascript_include_tag "cangaroo_ui/application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= yield %>
-
-</body>
+  <head>
+    <title>Cangaroo ui</title>
+    <%= stylesheet_link_tag    "cangaroo_ui/application", media: "all" %>
+    <%= javascript_include_tag "cangaroo_ui/application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= render partial: 'cangaroo_ui/navbar' %>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </body>
 </html>

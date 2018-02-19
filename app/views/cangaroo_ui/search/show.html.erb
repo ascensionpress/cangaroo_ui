@@ -6,14 +6,14 @@
 
 <h3>Records</h3>
 <% if @records.present? %>
-  <%= render partial: "cangaroo/records/records" %>
+  <%= render partial: "cangaroo_ui/records/records" %>
 <% else %>
   No records found.
 <% end %>
 
 <h3>Transactions</h3>
 <% if @transactions.present? %>
-<%= render partial: "cangaroo/transactions/transactions" %>
+<%= render partial: "cangaroo_ui/transactions/transactions" %>
 <% else %>
   No transactions found.
 <% end %>
