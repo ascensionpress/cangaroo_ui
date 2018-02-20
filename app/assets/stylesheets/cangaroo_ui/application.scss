@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+body { padding-top: 50px; }
+
+.js-flash-msg {
+  .alert {
+    margin-bottom: 0px;
+    padding: 7px;
+  }
+}
