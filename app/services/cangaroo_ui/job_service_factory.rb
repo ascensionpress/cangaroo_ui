@@ -3,21 +3,29 @@ module CangarooUI
 
     class UnsupportedJobClass < ArgumentError; end
 
-    def self.supported_job_classes
-      [
-        (Delayed::Job.name if defined?(Delayed::Job))
-      ]
-    end
+    class << self
 
-    def self.build(job:, flow:)
-      unless job.class.name.in?(self.supported_job_classes)
-        raise UnsupportedJobClass
+      def supported_job_classes
+        [
+          (Delayed::Job.name if defined?(Delayed::Job))
+        ].compact
       end
-      case job.class.name
-      when (Delayed::Job.name if defined?(Delayed::Job))
-        CangarooUI::JobService::DelayedJob.new(job: job, flow: flow)
-      end
-    end
 
+      def build(job:, flow:)
+        klass = get_class(job: job)
+        klass.new(job: job, flow: flow)
+      end
+
+      def get_class(job:)
+        unless job.class.name.in?(self.supported_job_classes)
+          raise UnsupportedJobClass
+        end
+        case job.class.name
+        when (defined?(Delayed::Job) ? Delayed::Job.name : 'Delayed::Job')
+          CangarooUI::JobService::DelayedJob
+        end
+      end
+
+    end
   end
 end

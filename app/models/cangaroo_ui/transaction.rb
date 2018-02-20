@@ -1,5 +1,7 @@
 module CangarooUI
   class Transaction < CangarooUI::ApplicationRecord
+    self.table_name = "cangaroo_transactions"
+
     validates_presence_of :job_class
 
     # NOTE
@@ -12,7 +14,7 @@ module CangarooUI
 
     def valid_job_class
       return if self.job_class.in?(self.class.valid_job_classes)
-      errors.add(:job_class, "value #{self.job_class} is not configured with CangarooUI")
+      errors.add(:job_class, "value #{self.job_class} is not configured with Cangaroo")
     end
 
     def self.valid_job_classes
@@ -31,13 +33,13 @@ module CangarooUI
     # The current version of rails only accepts a truthy/falsey value here
     # https://github.com/rails/rails/blob/185a30f75289ab158abd3c21536930c37af61338/activerecord/lib/active_record/associations/builder/belongs_to.rb#L144
     belongs_to :record, class_name: 'CangarooUI::Record', optional: true
-    belongs_to :source_connection, class_name: 'CangarooUI::Connection',
+    belongs_to :source_connection, class_name: 'Cangaroo::Connection',
       optional: true
     validates_presence_of [:record, :source_connection],
       if: :push_job?,
       message: "must exist"
 
-    belongs_to :destination_connection, class_name: 'CangarooUI::Connection'
+    belongs_to :destination_connection, class_name: 'Cangaroo::Connection'
 
     alias :payload :record
 
