@@ -9,7 +9,7 @@ A lightweight and production-ready user interface for [cangaroo](https://github.
 * retry failed jobs
 * resolve errors
 
-### Screenshots
+## Screenshots
 
 ![image](https://user-images.githubusercontent.com/7997618/35738958-387e106c-07fe-11e8-8306-9b6b1a83c2fb.png)
 
@@ -39,13 +39,13 @@ A lightweight and production-ready user interface for [cangaroo](https://github.
   * no fancy JS to pre-compile or anything, not even jQuery
   * bootstrap styles in vanilla CSS
 
-### Installation
+## Installation
 
 Add both cangaroo and the cangaroo_ui gems to your gemfile:
 
 ``` ruby
   gem 'cangaroo', github: 'nebulab/cangaroo', branch: 'master', ref: 'b681d60f4ab40e87781'
-  gem 'cangaroo_ui'
+  gem 'cangaroo_ui', github: 'ascensionpress/cangaroo_ui'
 ```
 
 NOTE: for now, it's
@@ -70,7 +70,7 @@ Next, mount the engine somewhere in the host application's routes file:
   end
 ```
 
-Finally, configure the jobs you want tracked by adding the
+Next, configure the jobs you want tracked by adding the
 `CangarooUI::InteractiveJob` mixin to them, e.g.:
 
 ```ruby
@@ -108,5 +108,11 @@ poll jobs once one succeeds.
 ```
 
 This configuration is completely optional, and defaults to false.
+
+Finally: decide how you want to authenticate your application. By default,
+`CangarooUI` is completely permission-less. This is by design, allowing you the
+flexibility to use whichever authentication framework you want. The interface
+should easily accommodate popular solutions like Devise, or simple ones like
+HTTP-basic.
 
 And that's it! You should be up and running in no time.
