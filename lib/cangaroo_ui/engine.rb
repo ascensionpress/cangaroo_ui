@@ -4,3 +4,5 @@ module CangarooUI
   end
 end
 CangarooUi = CangarooUI
+
+require 'will_paginate/railtie'
