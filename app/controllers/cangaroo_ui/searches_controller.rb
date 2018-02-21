@@ -1,8 +1,8 @@
 module CangarooUI
-  class SearchController < ApplicationController
+  class SearchesController < ApplicationController
 
     rescue_from ActionController::ParameterMissing do
-      redirect_to routes.transactions_path,
+      redirect_to transactions_path,
         alert: "Missing required search value"
     end
 

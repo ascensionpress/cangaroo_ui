@@ -1,5 +1,5 @@
 module CangarooUI
-  class ResolveJobController < ApplicationController
+  class ResolveJobsController < ApplicationController
 
     def update
       @tx = CangarooUI::Transaction.find(params[:id])
@@ -10,7 +10,7 @@ module CangarooUI
         else
           flash.now[:alert] = "Job #{@tx.job_class} could not be resolved"
         end
-        format.html { redirect_to routes.transactions_path }
+        format.html { redirect_to transactions_path }
         format.js
       end
     end
