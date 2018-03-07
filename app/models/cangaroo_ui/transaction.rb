@@ -22,6 +22,8 @@ module CangarooUI
         Rails.configuration.cangaroo.poll_jobs.map(&:name)
     end
 
+    validates_presence_of :active_job_id
+
     has_one :resolution, class_name: "CangarooUI::Resolution",
       dependent: :destroy
 
