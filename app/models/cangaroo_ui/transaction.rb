@@ -58,20 +58,33 @@ module CangarooUI
 
     def state
       # TODO test this
-      # TODO this needs to be made queueing-system-agnostic
-      return State::RESOLVED if self.resolution.present?
-      return State::FINISHED unless job = self.job
-      return State::FAILED if job.failed_at.present? || job.last_error.present?
-      return State::ACTIVE unless job.locked_at.nil?
-      # TODO is this actually a possible state of the system?
-      return State::SCHEDULED if job.run_at > job.created_at
-      return State::QUEUED
+      return State::RESOLVED  if self.resolved?
+      return State::FINISHED  if self.finished?
+      return State::FAILED    if self.failed?
+      return State::ACTIVE    if self.active?
+      return State::SCHEDULED if self.scheduled?
+      return State::QUEUED    if self.queued?
     end
 
-    def failed?() state == State::FAILED end
+    def self.job_service_class
+      CangarooUI::JobServiceFactory.infer_service_class
+    end
 
-    # TODO expand to support other workers
-    def self.job_class() Delayed::Job end
+    def job_service
+      @job_service ||= CangarooUI::JobServiceFactory.build(
+        job: self.job,
+        flow: self.job_class.constantize
+      )
+    end
+
+    def resolved?() self.resolution.present? end
+
+    delegate :finished?,
+      :failed?,
+      :active?,
+      :scheduled?,
+      :queued?,
+      to: :job_service
 
     scope :push_jobs, -> {
       where(job_class: Rails.configuration.cangaroo.jobs.map(&:name) )
@@ -79,19 +92,8 @@ module CangarooUI
     scope :poll_jobs, -> {
       where(job_class: Rails.configuration.cangaroo.poll_jobs.map(&:name) )
     }
-    scope :failures, -> {
-      # TODO need to make this queuing-system-agnostic
-      joins(:job).where.not(job_class.arel_table.name => {failed_at: nil})
-    }
-    scope :queued, -> {
-      # TODO need to make this queuing-system-agnostic
-      joins(:job).where(
-        job_class.arel_table.name => {
-          failed_at: nil,
-          locked_at: nil
-        }
-      )
-    }
+    scope :failures, -> { job_service_class.failed_transactions }
+    scope :queued, ->   { job_service_class.queued_transactions }
 
     def push_job?
       Rails.configuration.cangaroo.jobs.map(&:name).include?(self.job_class)

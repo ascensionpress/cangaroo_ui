@@ -86,7 +86,7 @@ RSpec.describe CangarooUI::InteractivePollJob do
     def expect_it_to_resolve_duplicates(expectation, job)
       msg = expectation ? :to : :to_not
       expect_any_instance_of(
-        CangarooUI::JobServiceFactory.get_class(job: job)
+        CangarooUI::JobServiceFactory.infer_service_class
       ).send(msg, receive(:resolve_duplicate_failed_jobs!))
     end
     it 'is called after performing' do
