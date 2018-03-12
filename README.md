@@ -1,5 +1,7 @@
 # CangarooUI
 
+[![CircleCI](https://circleci.com/gh/ascensionpress/cangaroo_ui.svg?style=svg&circle-token=ee6f85c9626008f96ac4b68e48e384731bbc577e)](https://circleci.com/gh/ascensionpress/cangaroo_ui)
+
 A lightweight and production-ready user interface for [cangaroo](https://github.com/nebulab/cangaroo/) that emulates the functionality of Wombat:
 
 * view jobs as they happen
@@ -61,6 +63,7 @@ them with `bundle exec rake db:migrate`:
 * [create
   transactions](https://github.com/ascensionpress/cangaroo_ui/blob/master/db/migrate/20180126204846_create_transactions.rb)
 * [create_resolutions](https://github.com/ascensionpress/cangaroo_ui/blob/master/db/migrate/20180205152255_create_cangaroo_resolutions.rb)
+* [add job ID to transactions](https://github.com/ascensionpress/cangaroo_ui/blob/master/db/migrate/20180307151233_add_active_job_id_to_transactions.rb)
 
 Next, mount the engine somewhere in the host application's routes file:
 

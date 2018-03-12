@@ -29,6 +29,10 @@ module CangarooUI
 
       def poll_job?() self.class.poll_job? end
 
+      def associated_tx
+        ::CangarooUI::Transaction.find_by_active_job_id(self.job_id)
+      end
+
       def _before_perform(flow)
         return unless tx = flow.associated_tx
         tx.update(last_run: DateTime.now)

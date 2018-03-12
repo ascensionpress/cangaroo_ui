@@ -13,12 +13,16 @@ ENV['DATABASE_URL'] = "sqlite3://#{database_path}"
 # Initialize our test app
 
 class RailsApp < Rails::Application
-  config.active_job.queue_adapter = :inline
+  config.active_job.queue_adapter = :delayed_job
   config.secret_key_base = SecureRandom.hex
   config.eager_load = false
 end
 
 RailsApp.initialize!
+
+require 'delayed_job'
+Delayed::Worker.destroy_failed_jobs = false
+Delayed::Worker.delay_jobs = false
 
 ActiveRecord::Migrator.migrate "db/migrate"
 

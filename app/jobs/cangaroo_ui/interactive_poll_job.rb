@@ -3,46 +3,38 @@ module CangarooUI
 
     def self.included(klass)
       klass.class_configuration :on_success_resolve_duplicates, false
-      klass.around_enqueue {|flow, block| _around_enqueue(flow, block) }
-      klass.after_perform  {|flow| _after_perform(flow)}
+      klass.after_enqueue :create_transaction!
+      klass.around_perform {|flow, block| _around_perform(flow, block) }
     end
 
-    def _around_enqueue(flow, block)
-      ActiveRecord::Base.transaction do
-        delayed_job = block.call
-        create_transaction!(flow, delayed_job)
+    def _around_perform(flow, block)
+      tx = self.associated_tx
+      if flow.perform?(DateTime.now)
+        block.call
+        resolve_duplicate_failed_jobs(flow, tx.job) if tx
+      else
+        tx.destroy if tx
       end
-    rescue
-      nil
     end
 
-    def _after_perform(job)
-      return unless tx = self.associated_tx
-      delete_redundant_jobs(job, tx.job)
-    end
-
-    def associated_tx
-      CangarooUI::Transaction.where(
-        job_class: self.class.name,
-        destination_connection: self.destination_connection
-      ).last
-    end
-
-    def create_transaction!(flow, job)
-      CangarooUI::Transaction.new(
-        job:                    job,
-        job_class:              flow.class.name,
-        destination_connection: flow.destination_connection,
+    def create_transaction!
+      tx = CangarooUI::Transaction.new(
+        job_id:                 self.provider_job_id,
+        job_class:              self.class.name,
+        active_job_id:          self.job_id,
+        destination_connection: self.destination_connection,
         source_connection:      nil, # polls aren't triggered by a source
         record:                 nil, # polls aren't associated with records
-      ).save!
+      )
+      tx.save!
+      tx
     end
 
     def on_success_resolve_duplicates?
       self.class.on_success_resolve_duplicates
     end
 
-    def delete_redundant_jobs(flow, job)
+    def resolve_duplicate_failed_jobs(flow, job)
       job_service = CangarooUI::JobServiceFactory.build(job: job, flow: flow)
       if job_service.success? && flow.on_success_resolve_duplicates?
         job_service.resolve_duplicate_failed_jobs!
