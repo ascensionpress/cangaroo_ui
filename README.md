@@ -1,5 +1,7 @@
 # CangarooUI
 
+[![CircleCI](https://circleci.com/gh/ascensionpress/cangaroo_ui.svg?style=svg&circle-token=ee6f85c9626008f96ac4b68e48e384731bbc577e)](https://circleci.com/gh/ascensionpress/cangaroo_ui)
+
 A lightweight and production-ready user interface for [cangaroo](https://github.com/nebulab/cangaroo/) that emulates the functionality of Wombat:
 
 * view jobs as they happen
