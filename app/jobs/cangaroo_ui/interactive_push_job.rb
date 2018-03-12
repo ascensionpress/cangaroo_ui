@@ -7,13 +7,18 @@ module CangarooUI
 
     def _around_enqueue(flow, block)
       ActiveRecord::Base.transaction do
+        # NOTE We can't use #associated_tx here because it is flow-specific.
+        # Different instances of the same flow class will have different
+        # job_ids, and so will have different #associated_tx values.
+        # The idea is that if a new instance of the same flow class is triggered
+        # we want to pull up the old instance's transaction
         record = search_for_existing_record(flow)
         tx     = search_for_existing_transaction(flow, record)
         record = create_or_update_record!(flow, record, tx)
 
         delayed_job = block.call
 
-        find_or_create_transaction!(tx, record, flow, delayed_job)
+        create_transaction!(tx, record, flow, delayed_job)
       end
     rescue
       nil
@@ -54,11 +59,6 @@ module CangarooUI
       record
     end
 
-    def associated_tx
-      return unless record = search_for_existing_record(self)
-      search_for_existing_transaction(self, record)
-    end
-
     def transform
       record = self.find_associated_record!(self.payload)
       { type.singularize => record.data }
@@ -72,7 +72,7 @@ module CangarooUI
     end
 
     class MissingState < StandardError; end
-    def find_or_create_transaction!(existing_tx, record, flow, job)
+    def create_transaction!(existing_tx, record, flow, job)
       return if existing_tx
       raise MissingState unless record && flow && job
 
@@ -80,6 +80,7 @@ module CangarooUI
         job:                    job,
         record:                 record,
         job_class:              flow.class.name,
+        active_job_id:          flow.job_id,
         source_connection:      flow.source_connection,
         destination_connection: flow.destination_connection,
       )
