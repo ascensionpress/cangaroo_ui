@@ -63,6 +63,7 @@ them with `bundle exec rake db:migrate`:
 * [create
   transactions](https://github.com/ascensionpress/cangaroo_ui/blob/master/db/migrate/20180126204846_create_transactions.rb)
 * [create_resolutions](https://github.com/ascensionpress/cangaroo_ui/blob/master/db/migrate/20180205152255_create_cangaroo_resolutions.rb)
+* [add job ID to transactions](https://github.com/ascensionpress/cangaroo_ui/blob/master/db/migrate/20180307151233_add_active_job_id_to_transactions.rb)
 
 Next, mount the engine somewhere in the host application's routes file:
 
