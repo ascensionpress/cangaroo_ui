@@ -47,7 +47,7 @@ Add both cangaroo and the cangaroo_ui gems to your gemfile:
 
 ``` ruby
   gem 'cangaroo', '1.3.0'
-  gem 'cangaroo_ui', github: 'ascensionpress/cangaroo_ui'
+  gem 'cangaroo_ui', '0.1.0', github: 'ascensionpress/cangaroo_ui'
 ```
 
 Next, copy the following migrations into your `db/migrate` folder and then run
