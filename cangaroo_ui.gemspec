@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   # TODO add cangaroo back as an official dependency once
   # cangaroo updates its code in ruby gems
-  # s.add_dependency "cangaroo", ">= 1.2.0"
+  s.add_dependency "cangaroo", ">= 1.3.0"
 
   # s.add_dependency "therubyracer"
   # TODO upgrade to 3.0.0 when this gets merged

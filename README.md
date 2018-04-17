@@ -46,14 +46,9 @@ A lightweight and production-ready user interface for [cangaroo](https://github.
 Add both cangaroo and the cangaroo_ui gems to your gemfile:
 
 ``` ruby
-  gem 'cangaroo', github: 'nebulab/cangaroo', branch: 'master', ref: 'b681d60f4ab40e87781'
+  gem 'cangaroo', '1.3.0'
   gem 'cangaroo_ui', github: 'ascensionpress/cangaroo_ui'
 ```
-
-NOTE: for now, it's
-[essential](https://github.com/nebulab/cangaroo/issues/57#issuecomment-367443046)
-that you bundle the version of cangaroo in Github. The version in rubygems is
-out of date and will not work with the interface.
 
 Next, copy the following migrations into your `db/migrate` folder and then run
 them with `bundle exec rake db:migrate`:
