@@ -5,20 +5,16 @@
       <th>Kind</th>
       <th>Data</th>
       <th>Created</th>
-      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @records.each do |record| %>
       <tr>
-        <td><%= record.number %></td>
+        <td><%= link_to record.number, record_path(record), class: "btn btn-default" %></td>
         <td><%= CangarooUI::RecordsHelper.record_kind_to_bootstrap_label(self, record.kind) %></td>
         <td><%= truncate(record.data.inspect, length: 100) %></td>
         <td>
           <%= CangarooUI::ApplicationHelper.to_humanized_dt(record.created_at) %>
-        </td>
-        <td>
-          <%= link_to "Show", record_path(record), class: 'btn btn-default btn-xs' %>
         </td>
       </tr>
     <% end %>
