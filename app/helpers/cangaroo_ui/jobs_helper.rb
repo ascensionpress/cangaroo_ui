@@ -3,10 +3,10 @@ module CangarooUI
 
     def self.job_status_badge(renderer, job)
       if job.locked_at
-        return renderer.content_tag(:span, 'running', class: 'label label-success')
+        return renderer.content_tag(:span, 'running', class: 'label label-warning')
       end
       if job.run_at > job.created_at
-        return renderer.content_tag(:span, 'scheduled', class: 'label label-warning')
+        return renderer.content_tag(:span, 'scheduled', class: 'label label-default')
       end
       return renderer.content_tag(:span, 'queued', class: 'label label-default')
     end
