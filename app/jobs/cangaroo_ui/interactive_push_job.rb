@@ -20,8 +20,12 @@ module CangarooUI
 
         create_transaction!(tx, record, flow, delayed_job)
       end
-    rescue
-      nil
+    rescue => error
+      Honeybadger.notify(error, context: {
+        flow: flow.inspect,
+        payload: flow.payload,
+        tags: 'critical,record-persistence'
+      }) if defined?(Honeybadger)
     end
 
     def search_for_existing_record(flow)
