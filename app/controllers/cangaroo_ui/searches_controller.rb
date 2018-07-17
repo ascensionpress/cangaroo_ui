@@ -14,6 +14,8 @@ module CangarooUI
       ).or(
         CangarooUI::Transaction.where(record: @records)
       )
+      @records = @records.paginate(page: params[:page])
+      @transactions = @transactions.paginate(page: params[:page])
     end
 
     private
