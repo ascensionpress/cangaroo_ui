@@ -39,6 +39,8 @@ RSpec.describe CangarooUI::InteractivePushJob do
     it 'calls the block passed in' do
       blk = double(:blk)
       expect(blk).to receive(:call)
+      allow(subject).to receive(:create_transaction!)
+
       subject._around_enqueue(subject, blk)
     end
     it 'creates a record' do
@@ -79,21 +81,44 @@ RSpec.describe CangarooUI::InteractivePushJob do
         [ CangarooUI::Record.count, CangarooUI::Transaction.count ]
       }.from([0,0]).to([1,1])
     end
-    it 'rolls back changes if there is an error queueing job' do
-      expect{
+    it 'allows queueing errors to bubble up' do # so they can be reported by error apps
+      expect {
         subject._around_enqueue(subject, -> { raise 'YOU SHALL NOT PASS' })
+      }.to raise_error("YOU SHALL NOT PASS")
+    end
+    it 'rolls back changes if there is an error queueing job' do
+      # doesn't rollback changes when there isn't an error
+      expect{
+        subject._around_enqueue(subject, -> {job})
+      }.to change{ [ CangarooUI::Record.count, CangarooUI::Transaction.count ] }
+
+      # but when there is...
+      expect{
+        begin
+          subject._around_enqueue(subject, -> { raise 'YOU SHALL NOT PASS' })
+        rescue => e
+          raise e unless e.message == "YOU SHALL NOT PASS"
+        end
       }.to_not change{ [ CangarooUI::Record.count, CangarooUI::Transaction.count ] }
     end
     it 'rolls back changes if there is an error creating the record' do
       allow_any_instance_of(CangarooUI::Record).to receive(:save!) { raise 'error' }
       expect{
-        subject._around_enqueue(subject, -> {job})
+        begin
+          subject._around_enqueue(subject, -> {job})
+        rescue => e
+          raise e unless e.message == "error"
+        end
       }.to_not change{ [ CangarooUI::Record.count, CangarooUI::Transaction.count ] }
     end
     it 'rolls back changes if there is an error creating the transaction' do
       allow_any_instance_of(CangarooUI::Transaction).to receive(:save!) { raise 'error' }
       expect{
-        subject._around_enqueue(subject, -> {job})
+        begin
+          subject._around_enqueue(subject, -> {job})
+        rescue => e
+          raise e unless e.message == "error"
+        end
       }.to_not change{ [ CangarooUI::Record.count, CangarooUI::Transaction.count ] }
     end
     context 'payload merging' do

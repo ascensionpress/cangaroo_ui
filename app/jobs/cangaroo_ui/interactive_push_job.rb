@@ -20,8 +20,6 @@ module CangarooUI
 
         create_transaction!(tx, record, flow, delayed_job)
       end
-    rescue
-      nil
     end
 
     def search_for_existing_record(flow)
