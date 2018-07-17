@@ -3,5 +3,6 @@
   <%= render partial: "transactions", locals: { transactions: @poll_txs } %>
 <% end %>
 
-<h2>Push Transactions</h2>
+<h2><%= @job_class || "Push" %> Transactions</h2>
+<%= link_to("Clear Filter", transactions_path, class: "btn btn-success") if @job_class %>
 <%= render partial: "transactions", locals: { transactions: @push_txs } %>

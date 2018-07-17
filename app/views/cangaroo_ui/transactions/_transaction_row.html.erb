@@ -1,7 +1,13 @@
 <% # `transaction` is a local variable %>
 
 <tr class="transaction-table-row" id="js-transaction-table-row-<%= transaction.id %>">
-  <td><%= transaction.job_class %></td>
+  <td>
+    <%= link_to(
+      transaction.job_class,
+      transactions_path(job_class: transaction.job_class),
+      class: "btn btn-default"
+    ) %>
+  </td>
   <td>
     <% if record = transaction.record %>
       <%= link_to(
